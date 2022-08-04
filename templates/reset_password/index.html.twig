@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('forgot') }}
+{% endblock %}
+
+{% block main %}
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData) }}
+        </div>
+    {% endif %}
+
+    <main class="form-signup w-100 m-auto">
+        {{ form_start(form,{'attr': {'class':'needs-validation register-form'}}) }}
+        <h1 class="h1 mb-3 fw-normal form-h">Reset password</h1>
+
+        <span>Enter new password twice</span>
+        <div class="mb-3">
+            {{ form_row(form.password.first, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.password.first) }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_row(form.password.second, {'attr': {'class': 'form-control'}, 'label_attr': {'class': 'form-label-repeat'}}) }}
+            <div class="invalid-feedback">
+                {{ form_errors(form.password.second) }}
+            </div>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        {{ form_end(form) }}
+
+    </main>
+
+{% endblock %}

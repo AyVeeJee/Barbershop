@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+###> doctrine/doctrine-bundle ###
+  db:
+    ports:
+      - "5432"
+###< doctrine/doctrine-bundle ###
+
+  nginx-service:
+    ports:
+     - "8080:80"
+
+  php81-service:
+    ports:
+      - '9000:9000'
+
+      ###> symfony/mailer ###
+  mailer:
+    image: schickling/mailcatcher
+    ports: [1025, 1080]
+###< symfony/mailer ###

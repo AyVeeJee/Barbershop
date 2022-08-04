@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('user_appointment') }}
+{% endblock %}
+
+{% block content_title %}Create appointment{% endblock %}
+
+{% block main %}
+    <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}" class="user-calendar"></div>
+
+    {{ include('admin/booking.appointment.html.twig') }}
+
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ encore_entry_link_tags('calendar') }}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ encore_entry_script_tags('calendar') }}
+{% endblock  %}

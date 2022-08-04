@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('barbers') }}
+{% endblock %}
+
+{% block main %}
+    <div class="row align-items-md-stretch">
+        <div class="col-md-4">
+            <div class="col p-4 d-flex flex-column mt-5 mb-5 m-lg-5 info-employee">
+                <h2 class="card-title">{{ employee.firstName ~ ' ' ~ employee.lastName}}</h2>
+                <img src="{{ asset(image_dir ~ employee.imageName) }}" width="50%" height="50%">
+                <a href="{{ path('user_booking', {'booking_employee': employee.id}) }}" class="btn btn-md btn-primary btn-service mt-4 image">Make Appointment</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div id="calendar-holder" value="{{ employee.id }}" data-events-url="{{ path('fc_load_events')}}"></div>
+        </div>
+    </div>
+
+
+    <div class="">
+        <div class="col-12 comment-h">
+            <h5 class="comment-h" >Comments</h5>
+        </div>
+        {% if comments is not null or comments is not empty %}
+            <div class="col-sm-9 p-3 comment-section">
+            {% for comment in comments %}
+                <article class="blog-post user-comments">
+                    <p class="blog-post-meta">
+                        <b>{{ comment.UserComment.firstName ~ ' ' ~ comment.UserComment.lastName }}</b>
+                    <p class="date">{{ comment.createdAt|date('d.m.Y H:i') }}</p></p>
+                    <br>
+                    <div class="comment">
+                        <p>{{ comment.content }}</p>
+                    </div>
+                </article>
+                <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="col-3 p-3 add-comment">
+            {% if app.user %}
+                <button type="button" class="btn btn-primary rounded-pill" id="btnModal" data-toggle="modal" data-target="#barberCommentModal">Create Comment</button>
+                {% include 'modal/barber.create.comment.html.twig' with {'employee_id': employee.id } %}
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ encore_entry_link_tags('calendar') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ encore_entry_script_tags('modal') }}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ encore_entry_script_tags('calendar') }}
+{% endblock %}

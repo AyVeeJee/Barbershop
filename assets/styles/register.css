@@ -1,0 +1,59 @@
+@import "header.css";
+
+.form-signup {
+    display: flex;
+    padding: 40px 15px;
+    height: 100%;
+    text-align: left!important;
+    justify-content: center;
+}
+
+.form-signup .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-label {
+    color: #504a4a;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.signin-span {
+    margin: 15px 0 0 0;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-h {
+    padding: 0 0 20px 0;
+}
+
+.form-btn {
+    font-family: 'Poppins Medium', 'Poppins Regular', 'Poppins', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 0.2px;
+    width: 50%;
+    padding: 10px 0 10px 0;
+    margin: 50px 0 0 0;
+}
+
+.form-phone {
+    width: 60%;
+}
+
+.register-form {
+    width: 30%;
+}
+
+.form-signup input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signup input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

@@ -1,0 +1,18 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Create appointment{% endblock %}
+
+{% block main %}
+    <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}"></div>
+
+    {{ include('admin/booking.appointment.html.twig') }}
+
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ encore_entry_link_tags('calendar') }}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ encore_entry_script_tags('calendar') }}
+{% endblock %}

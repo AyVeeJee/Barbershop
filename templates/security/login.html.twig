@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
+
+{% block main %}
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <main class="form-signup w-100 m-auto">
+        <form method="POST" action="{{ path('login') }}" class="needs-validation register-form">
+            <h1 class="h1 mb-3 fw-normal form-h">Sign In</h1>
+
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" name="_email" id="inputEmail" class="form-control" placeholder=""
+                       required autofocus>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" name="_password" id="inputPassword" class="form-control" placeholder=""
+                       required>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn btn-md btn-primary form-btn form-btn" type="submit">Sign in</button>
+
+            <div class="mb-3 signin-span">
+                <span>Don't have an account? </span><br>
+                <a href="{{ path('register') }}" class="">Sign Up</a><br>
+
+                <a href="{{ path('recover') }}" class="">Reset password</a>
+            </div>
+
+        </form>
+
+    </main>
+
+{% endblock %}

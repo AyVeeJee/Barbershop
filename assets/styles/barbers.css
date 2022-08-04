@@ -1,0 +1,96 @@
+@import "header.css";
+
+.search-bar {
+    display: -webkit-box;
+}
+
+.search-bar input {
+    margin-right: 10%;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.search-bar button {
+    width: 30%;
+}
+
+.search-bar a {
+    width: 10%;
+    display: block;
+    margin-left: 14%;
+}
+
+.card img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-radius: 50%;
+}
+
+.card-title a {
+    color: black;
+    text-decoration: none;
+}
+
+.info-employee img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-radius: 50%;
+}
+
+.comment-h {
+    margin-left: 18%;
+    margin-top: 5px;
+    float: left;
+    color: #555555;
+    margin-bottom: 1%;
+}
+
+.comment-block {
+    float: right;
+    overflow-y: scroll;
+}
+
+.user-comments p {
+    float: left;
+}
+
+.date {
+    float: right!important;
+    font-size: small;
+    margin-top: 5px;
+}
+
+.comment {
+    display: flex;
+    margin-top: 3%;
+    font-size: smaller;
+    text-align: left;
+}
+
+.comment-section {
+    margin-left: 35%;
+    width: 65%;
+    height: 230px;
+    overflow: auto;
+}
+
+.comment-section::-webkit-scrollbar {
+    display: none;
+}
+
+.blog-post-meta b {
+    font-weight: bolder;
+}
+
+.add-comment {
+    float: right;
+}
+
+.modal-footer {
+    float: left;
+}
+
+
+

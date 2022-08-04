@@ -1,0 +1,46 @@
+@import "header.css";
+
+.service-block {
+    text-align: left!important;
+}
+
+.text-block {
+    margin-right: 20px;
+}
+
+.card-text {
+    display: inherit;
+}
+
+.h-cost {
+    color: #3C5B98;
+}
+
+.btn-service {
+    width: 60%;
+    border-radius: 10px;
+}
+
+.wrapper {
+    position: relative;
+    width: 50%;
+}
+
+.text {
+    position: absolute;
+    top: 30px;
+    left: 70%;
+}
+
+.card-name {
+    text-align: left;
+}
+
+.wrapper-card {
+    position: relative;
+    width: 30%;
+    text-align: left;
+    margin-left: 5%;
+}
+
+

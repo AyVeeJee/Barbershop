@@ -1,0 +1,58 @@
+@import "header.css";
+
+.personal-details h6 {
+    float: left;
+    width: 35%;
+    margin-top: 10%;
+    text-align: left;
+    margin-left: 4%;
+    color: black!important;
+}
+
+.personal-details button {
+    float: left;
+    margin-left: 4%;
+    margin-top: 3%;
+    width: 20%;
+}
+
+.personal-details {
+    float: left;
+    width: 50%;
+    text-align: left;
+    font-size: small;
+    color: gray;
+}
+
+.profile-comment-block {
+    display: flow-root;
+    position: inherit;
+    margin-top: 7%;
+    float: left;
+    width: 40%;
+    text-align: left;
+    margin-left: 10%;
+}
+
+.comment-section {
+    font-size: small;
+    overflow: auto;
+    height: 470px;
+}
+
+.comment-section::-webkit-scrollbar {
+    display: none;
+}
+
+.date {
+    color: gray;
+}
+
+.user-comments button {
+    box-shadow: none !important;
+    float: right;
+    padding: 0;
+    margin-right: 5px;
+}
+
+

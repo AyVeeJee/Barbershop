@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
+
+{% block main %}
+
+    <main class="form-signup w-100 m-auto">
+      {{ form_start(form,{'attr': {'class':'needs-validation register-form'}}) }}
+        <h1 class="h1 mb-3 fw-normal form-h">Sign up</h1>
+
+        <div class="mb-3">
+            <label for="user_name" class="form-label">First name</label>
+            {{ form_widget(form.first_name, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            <div class="invalid-feedback">
+                {{form_errors(form.first_name)}}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="user_name" class="form-label">Last name</label>
+            {{ form_widget(form.last_name, {'attr': {'class': 'form-control'}}) }}
+            <div class="invalid-feedback">
+                {{form_errors(form.last_name)}}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="user_name" class="form-label">Phone</label>
+            {{ form_widget(form.phone, {'attr': {'class': 'needs-validation form-control form-phone'}}) }}
+            <div class="invalid-feedback">
+                {{form_errors(form.phone)}}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="user_email" class="form-label">Email</label>
+            {{ form_widget(form.email) }}
+            <div class="invalid-feedback">
+                {{form_errors(form.email)}}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="user_password" class="form-label">Password</label>
+            {{ form_widget(form.password) }}
+            <div class="invalid-feedback">
+                {{form_errors(form.password)}}
+            </div>
+        </div>
+
+        {{ form_widget(form.terms) }}
+        <div class="invalid-feedback">
+            {{form_errors(form.terms)}}
+        </div>
+
+
+        {{ form_widget(form.save, {'attr': {'class': 'btn btn-md btn-primary form-btn'}}) }}
+
+        <div class="mb-3 signin-span">
+            <span>Already have an account?</span><br>
+            <a href="{{ path('login') }}" class="">Sign in</a>
+        </div>
+
+        {{ form_end(form) }}
+
+    </main>
+
+{% endblock %}
+

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('main_page') }}
+{% endblock %}
+
+{% block main %}
+    <div class="container py-4">
+        <div class="p-5 mb-4 bg-light rounded-3 border">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Welcome to our barbershop!</h1>
+                <a href="{{ path('user_booking') }}" class="btn btn-primary btn-lg">Make Appointment</a>
+            </div>
+        </div>
+
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3 block">
+                    <h2 class="h2"><a href="{{ path('service') }}" class="a-service">Services</a></h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3 block">
+                    <h2 class="h2"><a href="{{ path('employee') }}" class="a-service">Barbers</a></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

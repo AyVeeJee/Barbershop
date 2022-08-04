@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('forgot') }}
+{% endblock %}
+
+{% block main %}
+
+    <main class="form-signup w-100 m-auto">
+        <form method="POST" action="{{ path('recover') }}" class="needs-validation register-form">
+            <h1 class="h1 mb-3 fw-normal form-h">Restore password</h1>
+
+            <span>Enter your email and we will send password reset link to you if your email is registered in system.</span>
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" name="_email" id="inputEmail" class="form-control" placeholder=""
+                       required autofocus>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn btn-md btn-primary form-btn" type="submit">Restore</button>
+        </form>
+
+    </main>
+
+{% endblock %}

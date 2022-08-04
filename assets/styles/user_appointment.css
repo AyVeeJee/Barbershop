@@ -1,0 +1,25 @@
+@import "header.css";
+
+.user-calendar {
+    float: left;
+}
+
+.form-calendar {
+    position: relative!important;
+}
+
+.error{
+    position: inherit;
+    top: -110%; left: 10%;
+    padding: 1% 20%;
+    border-radius: 3px;
+    background-color: #FDCAC4;
+    color: #ED6160;
+    display: none;
+}
+
+.error:nth-child(3){
+    top: 140px;
+    padding: 1% 18%;
+}
+

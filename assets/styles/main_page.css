@@ -1,0 +1,17 @@
+@import "header.css";
+
+.h2 {
+    width: 18rem;
+}
+
+.a-service {
+    text-decoration: none;
+}
+
+.text-center {
+    text-align: left!important;
+}
+
+.block {
+    margin-bottom: 15%;
+}

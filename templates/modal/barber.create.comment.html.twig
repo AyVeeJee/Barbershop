@@ -1,0 +1,21 @@
+<div class="modal fade" id="barberCommentModal" tabindex="-1" role="dialog" aria-labelledby="barberCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="barberCommentModalLabel">Create comment</h5>
+                <button type="button" class="btn-close" id="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="comment-modal" method="POST" action="{{ path('save_comment') }}">
+                    <div class="form-group">
+                        <textarea class="form-control" name="content" id="message-text"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn-save" name="employee_id" value="{{ employee_id }}" class="btn btn-primary">Send message</button>
+                        <button type="button" id="btn-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

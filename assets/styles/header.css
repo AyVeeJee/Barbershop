@@ -1,0 +1,18 @@
+html,
+body {}
+
+.cover-container {
+    max-width: 42em;
+}
+
+.btn-close {
+    box-shadow: none !important;
+}
+
+.modal-dialog {
+    position: absolute;
+    width: 100%;
+    left: 40%;
+    top: 25%;
+}
+

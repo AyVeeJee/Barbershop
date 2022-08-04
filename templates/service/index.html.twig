@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('service') }}
+{% endblock %}
+
+{% block main %}
+
+    {% for service in services %}
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative service-block">
+            <div class="col p-4 d-flex flex-column position-static">
+                <h3 class="mb-0">{{ service.service }}</h3>
+                <div class="mb-4 mt-5 text-muted w-50">{{ service.description }}</div>
+                <span class="card-text mb-auto"><span class="text-muted text-block">Cost</span> <h5 class="h-cost">{{ service.price|format_currency('USD', {fraction_digit: 2}) }}</h5></span>
+                <div class="wrapper">
+                    <a href="{{ path('user_booking') }}" class="btn btn-md btn-primary btn-service mt-4 image">Make Appointment</a>
+                    <a href="{{ path('service_more', {'id': service.id}) }}" class="text">Learn more</a>
+                </div>
+
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <svg class="bd-placeholder-img" width="550" height="370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+
+            </div>
+        </div>
+{% endfor %}
+
+    <footer class="text-muted py-5"></footer>
+
+{% endblock %}
