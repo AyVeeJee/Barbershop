@@ -1,0 +1,40 @@
+@import "header.css";
+
+.table {
+    margin-top: 3%;
+    float: left;
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+    overflow-y: scroll;
+}
+
+.table::-webkit-scrollbar {
+    display: none;
+}
+
+.table th {
+    color: #7C90BA;
+    font-size: x-small;
+}
+
+/*.list {*/
+/*    display: table;*/
+/*}*/
+
+.list h2 {
+    margin-top: 5%;
+    float: left;
+    font-size: medium;
+    color: #A4A7B2;
+}
+
+.btn-list {
+    box-shadow: none !important;
+    padding: 0;
+}
+
+.btn-update {
+    margin-left: 10px;
+}
+

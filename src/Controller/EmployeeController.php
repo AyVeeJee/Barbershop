@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Controller\Admin\EmployeeCrudController;
 use App\Entity\Comment;
 use App\Entity\Employee;
 use App\Entity\Service;
 use App\Entity\User;
+use App\Form\AdminNewEmployeeType;
+use App\Repository\EmployeeRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +19,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EmployeeController extends AbstractController
 {
-    public function __construct(ManagerRegistry $entityManager)
+    public function __construct(AdminUrlGenerator $crudUrlGenerator, ManagerRegistry $entityManager, EmployeeRepository $employeeRepository)
     {
         $this->entityManager = $entityManager;
+        $this->employeeRepository = $employeeRepository;
+        $this->crudUrlGenerator = $crudUrlGenerator;
     }
 
     #[Route('/barbers', name: 'employee')]
@@ -33,27 +40,27 @@ class EmployeeController extends AbstractController
         ]);
     }
 
-    #[Route("/barbers/search-results/{page}", name: "barber_search_results", defaults: ["page" => "1"], methods: ["GET"] )]
+    #[Route("/barbers/search-results/{page}", name: "barber_search_results", defaults: ["page" => "1"], methods: ["GET"])]
     public function searchResults($page, Request $request)
     {
         $employees = null;
         $query = null;
 
-        if($query = $request->get('query'))
-        {
+        if ($query = $request->get('query')) {
             $employees = $this->entityManager
                 ->getManager()
                 ->getRepository(Employee::class)->findByRequest($query, $page, $request->get('sortby'));
         }
 
-        return $this->render('employee/index.html.twig',[
+        return $this->render('employee/index.html.twig', [
             'employees' => $employees,
             'query' => $query,
         ]);
     }
 
     #[Route('/barbers/info', name: 'employee_info')]
-    public function infoEmployee(Request $request) {
+    public function infoEmployee(Request $request)
+    {
         $comments = null;
         $employeeId = $request->get('id');
 
@@ -71,7 +78,8 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/barbers/info/save', name: 'save_comment', methods: ['POST'])]
-    public function saveComment(Request $request) {
+    public function saveComment(Request $request)
+    {
         $employeeId = $request->get('employee_id');
         $userId = $this->getUser()->getId();
         $content = $request->get('content');
@@ -86,5 +94,36 @@ class EmployeeController extends AbstractController
         $this->entityManager->getManager()->flush();
 
         return $this->redirectToRoute('employee_info', ['id' => $employeeId]);
+    }
+
+    #[Route('/admin/employee/new', name: 'admin_new_employee')]
+    public function adminNewEmployee(Request $request)
+    {
+        $employeeId = $request->get('uuid');
+        $employee = new Employee();
+
+        if ($employeeId !== null) {
+            $repository = $this->entityManager->getManager()->getRepository(Employee::class);
+            $employee = $repository->findOneBy(['id' => $employeeId]);
+        }
+
+        $form = $this->createForm(AdminNewEmployeeType::class, $employee);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->employeeRepository->add($employee, true);
+
+            $url = $this->crudUrlGenerator
+                ->setController(EmployeeCrudController::class)
+                ->setAction(Action::INDEX)
+                ->generateUrl();
+
+            return $this->redirect($url);
+        }
+
+        return $this->renderForm('admin/new_employee.html.twig', [
+            'form' => $form,
+            'workDay' => $employee->getWorkDays(),
+        ]);
     }
 }

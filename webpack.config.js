@@ -24,6 +24,7 @@ Encore
     // .addEntry('js/custom', './build/js/custom.js')
     .addEntry('calendar', './assets/js/calendar/index.js')
     .addEntry('modal', './assets/js/modal.js')
+    .addEntry('schedule_new_employee', './assets/js/admin_new_employee.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     // .enableStimulusBridge('./assets/controllers.json')
@@ -35,6 +36,8 @@ Encore
     .addStyleEntry('service', ['./assets/styles/service.css'])
     .addStyleEntry('barbers', ['./assets/styles/barbers.css'])
     .addStyleEntry('user_profile', ['./assets/styles/user_profile.css'])
+    .addStyleEntry('user_list_appointment', ['./assets/styles/user_list_appointment.css'])
+    .addStyleEntry('admin_new_employee', ['./assets/styles/admin_new_employee.css'])
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
     .autoProvidejQuery()

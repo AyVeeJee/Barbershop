@@ -1,7 +1,8 @@
 import 'bootstrap';
 
-const deleteBtn = document.querySelectorAll('#deleteCommentBtn');
-const updateBtn = document.querySelectorAll('#updateCommentBtn');
+const deleteCommentBtn = document.querySelectorAll('#deleteCommentBtn');
+const updateCommentBtn = document.querySelectorAll('#updateCommentBtn');
+const deleteAppointmentBtn = document.querySelectorAll('#deleteAppointmentBtn');
 
 document.addEventListener('DOMContentLoaded', function () {
     $("#btnModal").on('click', function () {
@@ -13,8 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    deleteBtn.forEach(button => button.addEventListener('click', delComment, false));
-    updateBtn.forEach(button => button.addEventListener('click', updateComment, false));
+    deleteCommentBtn.forEach(button => button.addEventListener('click', delComment, false));
+    updateCommentBtn.forEach(button => button.addEventListener('click', updateComment, false));
+    deleteAppointmentBtn.forEach(button => button.addEventListener('click', delAppointment, false));
 });
 
 function delComment() {
@@ -26,6 +28,19 @@ function delComment() {
 
     card.modal('show')
     $("#close, #delete-comment-btn-close").on('click', function () {
+        card.modal('hide')
+    });
+}
+
+function delAppointment() {
+    let card = $("#deleteAppointmentModal");
+    let userId = document.getElementById("delete-appointment-btn-save");
+    let appointmentId = this.getAttribute('value');
+
+    userId.setAttribute("value", appointmentId)
+
+    card.modal('show')
+    $("#close, #delete-appointment-btn-close").on('click', function () {
         card.modal('hide')
     });
 }

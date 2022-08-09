@@ -1,0 +1,94 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}New employee{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ encore_entry_link_tags('admin_new_employee') }}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ encore_entry_script_tags('schedule_new_employee') }}
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {'attr': {'id': form.vars.id, 'class': 'admin_form_employee'}}) }}
+    {{ form_row(form.first_name) }}
+    {{ form_row(form.last_name) }}
+    {{ form_row(form.services) }}
+    {{ form_row(form.imageFile) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+
+    {% set WorkDays = enum('\\App\\Enums\\WorkDays') %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="col">
+                <label class="form-label">Start time</label>
+            </div>
+            <div class="col">
+                <label class="form-label">End time</label>
+            </div>
+        </div>
+    </div>
+
+    {% for day in WorkDays.cases() %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-5 ">
+                    <div class="checkbox-admin-employee mb-5">
+                        <input type="checkbox" class="form-check" id="admin_new_employee_days" value="{{ day.value }}"
+                               placeholder=""
+                                {% if attribute(workDay, day.name ~ '_start') is defined %} checked {% endif %}>
+                        <label class="form-label">{{ day.name }}</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <select class="form-select" id="admin_new_employee_start_time_{{ day.value }}"
+                            name="admin_new_employee[workDays][{{ day.name }}_start]"
+                            {% if attribute(workDay, day.name ~ '_start') is not defined %} disabled {% endif %}>
+
+                        {% if attribute(workDay, day.name ~ '_start') is defined %}
+                            <option selected>{{ attribute(workDay, day.name ~ '_start') }}</option>
+                        {% endif %}
+                        {% for i in range(9, 11) %}
+                            <option>
+                                {{ i ~ ' AM' }}
+                            </option>
+                        {% endfor %}
+                        {% for i in range(1, 9) %}
+                            <option>
+                                {{ i ~ ' PM' }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select" id="admin_new_employee_end_time_{{ day.value }}"
+                            name="admin_new_employee[workDays][{{ day.name }}_end]"
+                            {% if attribute(workDay, day.name ~ '_end') is not defined %} disabled {% endif %}>
+
+                        {% if attribute(workDay, day.name ~ '_end') is defined %}
+                            <option selected>{{ attribute(workDay, day.name ~ '_end') }}</option>
+                        {% endif %}
+                        {% for i in range(9, 11) %}
+                            <option>
+                                {{ i ~ ' AM' }}
+                            </option>
+                        {% endfor %}
+                        {% for i in range(1, 9) %}
+                            <option>
+                                {{ i ~ ' PM' }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {{ form_row(form._token) }}
+    {{ form_row(form.save) }}
+{% endblock %}

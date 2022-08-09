@@ -54,6 +54,17 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByUserId($id): array
+    {
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.employee', 'e')
+            ->leftJoin('b.service', 's')
+            ->andWhere('b.appointer = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    public function findOneBySomeField($value): ?Booking
 //    {
 //        return $this->createQueryBuilder('b')

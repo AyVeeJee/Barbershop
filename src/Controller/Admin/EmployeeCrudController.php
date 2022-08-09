@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Employee;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -17,6 +19,24 @@ class EmployeeCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Employee::class;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        $actions->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+            return $action->linkToRoute('admin_new_employee', function (Employee $employee): array {
+                return [
+                    'uuid' => $employee->getId(),
+                ];
+            });
+        });
+
+        $actions->update(Crud::PAGE_INDEX, 'new', function (Action $action) {
+            return $action->linkToRoute('admin_new_employee');
+        })->add(Crud::PAGE_NEW, Action::INDEX)
+            ->add(Crud::PAGE_DETAIL, Action::NEW);
+
+        return $actions;
     }
 
     public function configureCrud(Crud $crud): Crud

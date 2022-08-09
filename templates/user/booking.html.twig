@@ -4,8 +4,6 @@
     {{ encore_entry_link_tags('user_appointment') }}
 {% endblock %}
 
-{% block content_title %}Create appointment{% endblock %}
-
 {% block main %}
     <div id="calendar-holder" data-events-url="{{ path('fc_load_events') }}" class="user-calendar"></div>
 

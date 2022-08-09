@@ -71,6 +71,7 @@ class NewAppointment extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $employeeId = $request->get('booking_employee');
+        $bookingId = $request->get('booking');
         $booking = new Booking();
 
         if ($employeeId !== null) {
@@ -81,16 +82,32 @@ class NewAppointment extends AbstractController
         }
 
         $form = $this->createForm(BookingUserType::class, $booking);
-
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $booking->setAppointer($this->getUser());
+            $userId = $this->getUser()->getId();
+            $entityManager = $this->entityManager->getManager();
             $endAt = new DateTime($booking->getBeginAt()->format('Y-m-d H:i:s'));
-            $booking->setEndAt($endAt->add(new DateInterval('PT1H')));
+            $updateBooking = $entityManager->getRepository(Booking::class)->findOneBy(
+                [
+                    'id' => $bookingId,
+                    'appointer' => $userId,
+                ]);
 
-            $this->bookingRepository->add($booking, true);
+            if ($updateBooking) {
+                $updateBooking->setService($form->get('service')->getData());
+                $updateBooking->setEmployee($form->get('employee')->getData());
+                $updateBooking->setBeginAt($endAt);
+                $updateBooking->setEndAt($endAt->add(new DateInterval('PT1H')));
+
+                $entityManager->flush();
+            } else {
+                $booking->setAppointer($this->getUser());
+                $endAt = new DateTime($booking->getBeginAt()->format('Y-m-d H:i:s'));
+                $booking->setEndAt($endAt->add(new DateInterval('PT1H')));
+
+                $this->bookingRepository->add($booking, true);
+            }
 
             return $this->redirectToRoute('main_page');
         }

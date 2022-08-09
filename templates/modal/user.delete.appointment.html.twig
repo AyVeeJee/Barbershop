@@ -1,0 +1,24 @@
+<div class="modal fade" id="deleteAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="deleteAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAppointmentModalLabel">Create comment</h5>
+                <button type="button" class="btn-close" id="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="comment-modal" style="text-align: center" method="POST"
+                      action="{{ path('delete_user_appointment') }}">
+                    <h4 class="modal-title" id="deleteCommentModalLabel">Are you sure you want to delete your appointment?</h4>
+                    <div class="modal-footer">
+                        <button type="submit" id="delete-appointment-btn-save" name="booking_id" value=""
+                                class="btn btn-primary">Delete
+                        </button>
+                        <button type="button" id="delete-appointment-btn-close" class="btn btn-secondary"
+                                data-dismiss="modal">Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

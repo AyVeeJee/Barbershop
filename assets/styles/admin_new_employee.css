@@ -1,0 +1,17 @@
+.admin_form_employee {
+    width: 30%;
+}
+
+.checkbox-admin-employee {
+    display: flex;
+}
+
+.checkbox-admin-employee input{
+    width: 15px;
+    height: 15px;
+}
+
+.checkbox-admin-employee label {
+    margin-left: 10px;
+    margin-bottom: 0;
+}

@@ -89,10 +89,10 @@ class UserProfileController extends AbstractController
         return $this->redirectToRoute('user_profile');
     }
 
-    #[Route('/user/profile/delete', name: 'user_profile_comment_delete')]
+    #[Route('/user/profile/delete', name: 'user_profile_comment_delete', methods: ['POST'])]
     public function deleteComment(Request $request)
     {
-        $commentId = $request->get('employee_id');
+        $commentId = $request->get('comment_id');
         $userId = $this->getUser()->getId();
 
         $entityManager = $this->entityManager->getManager();
