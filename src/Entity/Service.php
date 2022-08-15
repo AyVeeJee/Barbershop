@@ -6,6 +6,7 @@ use App\Repository\ServicesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Table(name: '`services`')]
 #[ORM\Entity(repositoryClass: ServicesRepository::class)]
@@ -16,7 +17,7 @@ class Service
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $service;
 
     #[ORM\Column(type: 'text')]
@@ -25,9 +26,11 @@ class Service
     #[ORM\Column(type: 'float')]
     private $price;
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Booking::class)]
     private $bookings;
 
+    #[Ignore]
     #[ORM\ManyToMany(targetEntity: Employee::class, mappedBy: 'services')]
     private Collection $employees;
 

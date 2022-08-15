@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Table(name: '`comments`')]
 #[ORM\HasLifecycleCallbacks]
@@ -21,10 +22,12 @@ class Comment
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments',)]
+    #[Ignore]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private $user_comment;
 
+    #[Ignore]
     #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private $employee;
@@ -63,6 +66,7 @@ class Comment
         return $this;
     }
 
+    #[Ignore]
     public function setCreatedAtForFixtures($created_at): self
     {
         $this->created_at_fixtures = $created_at;

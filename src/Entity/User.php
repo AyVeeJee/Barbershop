@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`users`')]
@@ -18,10 +19,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 60, nullable: false)]
+    #[ORM\Column(type: 'string', length: 60, nullable: true)]
     private $first_name;
 
-    #[ORM\Column(type: 'string', length: 60, nullable: false)]
+    #[ORM\Column(type: 'string', length: 60, nullable: true)]
     private $last_name;
 
     #[ORM\Column(type: 'string', length: 180, unique: true, nullable: false)]
@@ -36,9 +37,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'user_comment', targetEntity: Comment::class, fetch: 'EAGER')]
     private $comments;
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'appointer', targetEntity: Booking::class)]
     private $bookings;
 
@@ -232,9 +235,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return mixed
+     * @return bool|null
      */
-    public function getTerms(): bool
+    public function getTerms(): ?bool
     {
         return $this->terms;
     }

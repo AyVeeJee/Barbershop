@@ -9,8 +9,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use function PHPUnit\Framework\isNull;
 
 class AppointmentSubscriber implements EventSubscriberInterface
 {

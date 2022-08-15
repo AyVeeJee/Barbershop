@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Booking;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,6 +64,26 @@ class BookingRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByRequestApi($request): array
+    {
+        $beginAt = new DateTime($request->get('begin_at'));
+
+        return $this->createQueryBuilder('b')
+            ->where('b.id = :id')
+            ->orWhere('b.appointer = :user_id')
+            ->orWhere('b.service = :service')
+            ->orWhere('b.employee = :employee_id')
+            ->orWhere('b.beginAt = :begin_at')
+            ->setParameter('id', $request->get('booking_id'))
+            ->setParameter('user_id', $request->get('user_id'))
+            ->setParameter('service', $request->get('service_id'))
+            ->setParameter('employee_id', $request->get('employee_id'))
+            ->setParameter('begin_at', $beginAt->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    public function findOneBySomeField($value): ?Booking

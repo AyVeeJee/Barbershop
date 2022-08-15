@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -23,10 +24,10 @@ class Employee
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 60)]
+    #[ORM\Column(type: 'string', length: 60, nullable: true)]
     private $first_name;
 
-    #[ORM\Column(type: 'string', length: 60)]
+    #[ORM\Column(type: 'string', length: 60, nullable: true)]
     private $last_name;
 
     #[ORM\Column(type: 'string', length: 60, unique: true)]
@@ -35,13 +36,16 @@ class Employee
     #[ORM\Column(type: 'string', length: 60)]
     private $phone;
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Comment::class, fetch: 'EAGER')]
     private $comments;
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
     private $bookings;
 
-    #[ORM\ManyToMany(targetEntity: Service::class, inversedBy: 'employees')]
+    #[Ignore]
+    #[ORM\ManyToMany(targetEntity: Service::class, inversedBy: 'employees', fetch: 'EAGER')]
     private Collection $services;
 
     /**
@@ -57,6 +61,7 @@ class Employee
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $imageSize = null;
 
+    #[Ignore]
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 

@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use App\Controller\Admin\BookingCrudController;
+use DateTime;
+use DateInterval;
 use App\Entity\Booking;
 use App\Entity\Employee;
-use App\Form\BookingAdminType;
 use App\Form\BookingUserType;
+use App\Form\BookingAdminType;
 use App\Repository\BookingRepository;
-use DateInterval;
-use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Controller\Admin\BookingCrudController;
+use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class NewAppointment extends AbstractController
 {
@@ -79,6 +79,10 @@ class NewAppointment extends AbstractController
             $employee = $repository->findOneBy(['id' => $employeeId]);
 
             $booking->setEmployee($employee);
+
+            foreach ($employee->getServices()->toArray() as $service) {
+                $booking->setService($service);
+            }
         }
 
         $form = $this->createForm(BookingUserType::class, $booking);

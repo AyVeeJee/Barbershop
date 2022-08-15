@@ -39,6 +39,22 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByRequestApi($request)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.user_comment = :user_id')
+            ->orWhere('c.employee = :employee_id')
+            ->orWhere('c.id = :id')
+            ->orWhere('lower(c.content) LIKE lower(:content)')
+            ->setParameter('user_id', $request->get('user_id'))
+            ->setParameter('employee_id', $request->get('employee_id'))
+            ->setParameter('content', '%' . $request->get('content') . '%' )
+            ->setParameter('id', $request->get('comment_id'))
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */
