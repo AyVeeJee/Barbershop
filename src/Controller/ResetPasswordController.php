@@ -19,7 +19,7 @@ class ResetPasswordController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    #[Route('/api/reset/{id}/change-password', name: 'reset_password')]
+    #[Route('/reset/{id}/change-password', name: 'reset_password')]
     public function index(Request $request, User $user, UserPasswordHasherInterface $encoder): Response
     {
         if($request->get('token') === $user->getLostPassword()->getToken())

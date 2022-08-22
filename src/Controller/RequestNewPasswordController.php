@@ -55,7 +55,7 @@ class RequestNewPasswordController extends AbstractController
             ->to($user->getEmail())
             ->subject('New password request')
             ->text(
-                'You requested a new password. Use this link to reset your password: '. $this->getParameter('app_url') .'/api/reset/'.$user_id.'/change-password?token='.$user->getLostPassword()->getToken()
+                'You requested a new password. Use this link to reset your password: '. $this->getParameter('app_url') .'/reset/'.$user_id.'/change-password?token='.$user->getLostPassword()->getToken()
             );
 
         $mailer->send($message);
