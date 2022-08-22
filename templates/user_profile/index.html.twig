@@ -63,7 +63,7 @@
                                 <span class="visually-hidden">Button</span>
                             </button>
                             <br>
-                        <div class="comment" id="comment">
+                        <div class="comment" id="comment-{{ comment.id }}">
                             <p>{{ comment.content }}</p>
                         </div>
                         <p class="date">{{ comment.createdAt|date('d.m.Y H:i') }}</p>
