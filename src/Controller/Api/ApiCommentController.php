@@ -82,8 +82,8 @@ class ApiCommentController extends AbstractController
 
     private function createEntityFromRequest(Comment $comment, $request): void
     {
-        $user = $this->entityManager->find(User::class, $request->get('user_id', $comment->getUserComment()->getId()));
-        $employee = $this->entityManager->find(Employee::class, $request->get('employee_id', $comment->getEmployee()->getId()));
+        $user = $this->entityManager->find(User::class, $request->get('user_id', $comment->getUserComment()?->getId()));
+        $employee = $this->entityManager->find(Employee::class, $request->get('employee_id', $comment->getEmployee()?->getId()));
         $content = $request->get('content', $comment->getContent());
 
         $comment->setUserComment($user);

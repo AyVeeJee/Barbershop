@@ -9,7 +9,13 @@
         <div class="col-md-4">
             <div class="col p-4 d-flex flex-column mt-5 mb-5 m-lg-5 info-employee">
                 <h2 class="card-title">{{ employee.firstName ~ ' ' ~ employee.lastName}}</h2>
-                <img src="{{ asset(image_dir ~ employee.imageName) }}" width="50%" height="50%">
+                {{ employee.imageName }}
+                <img src="{% if employee.imageName is not null %}
+                            {{ asset(image_dir ~ employee.imageName) }}
+                        {% else %}
+                            {{ asset(image_dir ~ "img.png") }}
+                        {% endif %}
+                " width="50%" height="50%">
                 <a href="{{ path('user_booking', {'booking_employee': employee.id}) }}" class="btn btn-md btn-primary btn-service mt-4 image">Make Appointment</a>
             </div>
         </div>

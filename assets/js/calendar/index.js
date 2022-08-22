@@ -10,7 +10,6 @@ import "./index.css";
 let admin_employee = $("#booking_admin_employee");
 let user_employee = $("#booking_user_employee");
 let datetime = $("#booking_user_beginAt");
-let reset = $("#btn-reset");
 
 datetime.change(function () {
     let data = datetime.val()

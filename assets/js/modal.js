@@ -47,10 +47,13 @@ function delAppointment() {
 
 function updateComment() {
     let card = $("#updateCommentModal");
+    let text = document.getElementById('comment');
     let employeeId = document.getElementById("update-comment-btn-save");
+    let modalText = document.getElementById("message-text");
     let commentId = this.getAttribute('value');
 
     employeeId.setAttribute("value", commentId)
+    modalText.value += text.textContent.trim();
 
     card.modal('show')
     $("#close, #update-comment-btn-close").on('click', function () {

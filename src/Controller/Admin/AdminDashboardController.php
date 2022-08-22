@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\Employee;
 use App\Entity\Service;
@@ -35,13 +34,20 @@ class AdminDashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Appointments')
-//            ->setFaviconPath('fa fa-comments')
             ->renderContentMaximized()
             ->renderSidebarMinimized()
             ->disableDarkMode()
             ->generateRelativeUrls()
             ;
 }
+
+    public function configureUserMenu(UserInterface $user): UserMenu
+    {
+        return parent::configureUserMenu($user)
+            ->addMenuItems([
+                MenuItem::linkToUrl('Main Page', 'fa-home', '/'),
+            ]);
+    }
 
     public function configureMenuItems(): iterable
     {

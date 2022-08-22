@@ -79,10 +79,10 @@ class ApiEmployeeController extends AbstractController
 
     private function createEntityFromRequest(Employee $employee, $request): void
     {
-        $employee->setFirstName($request->get('first_name'));
-        $employee->setLastName($request->get('last_name'));
-        $employee->setEmail($request->get('email'));
-        $employee->setPhone($request->get('phone'));
+        $employee->setFirstName($request->get('first_name', $employee->getFirstName()));
+        $employee->setLastName($request->get('last_name', $employee->getLastName()));
+        $employee->setEmail($request->get('email', $employee->getEmail()));
+        $employee->setPhone($request->get('phone', $employee->getPhone()));
     }
 
     private function findEmployeeByEmail($request)

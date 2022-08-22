@@ -79,9 +79,9 @@ class ApiServiceController extends AbstractController
 
     private function createEntityFromRequest(Service $service, $request): void
     {
-        $service->setService($request->get('service'));
-        $service->setDescription($request->get('description'));
-        $service->setPrice($request->get('price'));
+        $service->setService($request->get('service', $service->getService()));
+        $service->setDescription($request->get('description', $service->getDescription()));
+        $service->setPrice($request->get('price', $service->getPrice()));
     }
 
     private function findUserByEmail($request)

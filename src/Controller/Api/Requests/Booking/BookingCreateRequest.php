@@ -32,7 +32,7 @@ class BookingCreateRequest extends BaseRequest
         $request = $this->getRequest();
 
         if ($request->get('begin_at') && !DateTime::createFromFormat('d.m.Y H:i', $request->get('begin_at'))) {
-            throw new \Exception('Please check your date. Supported Format: d.m.y h:i');
+            throw new \Exception('Please check your date. Supported Format: d.m.y H:i');
         }
     }
 }

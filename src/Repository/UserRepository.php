@@ -57,6 +57,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+    public function findByRole(string $role)
+    {
+        $rsm = $this->createResultSetMappingBuilder('s');
+
+        $rawQuery = sprintf(
+            'SELECT %s
+        FROM users s 
+        WHERE s.roles::jsonb ?? :role',
+            $rsm->generateSelectClause()
+        );
+
+        $query = $this->getEntityManager()->createNativeQuery($rawQuery, $rsm);
+        $query->setParameter('role', $role);
+        return $query->getResult();
+    }
+
+
 //    public function findFirstLastNameUsers($id): array
 //    {
 //        $choiceArray = [];

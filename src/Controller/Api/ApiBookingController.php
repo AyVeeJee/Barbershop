@@ -85,15 +85,15 @@ class ApiBookingController extends AbstractController
 
     private function createEntityFromRequest(Booking $booking, $request): void
     {
-        $user = $this->entityManager->find(User::class, $request->get('user_id', $booking->getAppointer()->getId()));
-        $employee = $this->entityManager->find(Employee::class, $request->get('employee_id', $booking->getEmployee()->getId()));
-        $service = $this->entityManager->find(Service::class, $request->get('service_id', $booking->getService()->getId()));
-        $begin_at = new DateTime($request->get('begin_at', $booking->getBeginAt()->format('Y-m-d H:i:s')));
+        $user = $this->entityManager->find(User::class, $request->get('user_id', $booking->getAppointer()?->getId()));
+        $employee = $this->entityManager->find(Employee::class, $request->get('employee_id', $booking->getEmployee()?->getId()));
+        $service = $this->entityManager->find(Service::class, $request->get('service_id', $booking->getService()?->getId()));
+        $begin_at = new DateTime($request->get('begin_at', $booking->getBeginAt()?->format('Y-m-d H:i:s')));
 
         $booking->setAppointer($user);
         $booking->setService($service);
         $booking->setEmployee($employee);
-        $booking->setBeginAt(new DateTime($request->get('begin_at', $booking->getBeginAt()->format('Y-m-d H:i:s'))));
+        $booking->setBeginAt(new DateTime($request->get('begin_at', $booking->getBeginAt()?->format('Y-m-d H:i:s'))));
         $booking->setEndAt($begin_at->add(new DateInterval('PT1H')));
     }
 

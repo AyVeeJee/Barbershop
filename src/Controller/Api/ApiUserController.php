@@ -81,13 +81,13 @@ class ApiUserController extends AbstractController
 
     private function createEntityFromRequest(User $user, $request): void
     {
-        $user->setFirstName($request->get('first_name'));
-        $user->setLastName($request->get('last_name'));
-        $user->setEmail($request->get('email'));
-        $user->setPassword(
-            $this->passwordEncoder->hashPassword($user, $request->get('password'))
-        );
-        $user->setPhone($request->get('phone'));
+        $user->setFirstName($request->get('first_name', $user->getFirstName()));
+        $user->setLastName($request->get('last_name', $user->getLastName()));
+        $user->setEmail($request->get('email', $user->getEmail()));
+        if ($request->get('password')) {
+            $user->setPassword($this->passwordEncoder->hashPassword($user, $request->get('password')));
+        }
+        $user->setPhone($request->get('phone', $user->getPhone()));
         $user->setRoles($user->getRoles());
     }
 
