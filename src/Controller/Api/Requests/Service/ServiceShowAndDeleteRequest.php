@@ -10,5 +10,5 @@ class ServiceShowAndDeleteRequest extends BaseRequest
 {
     #[Type('string')]
     #[NotBlank([])]
-    protected $service;
+    protected $title;
 }

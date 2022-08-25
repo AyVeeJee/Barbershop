@@ -17,6 +17,8 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class EmployeeRepository extends ServiceEntityRepository
 {
+    private PaginatorInterface $paginator;
+
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Employee::class);
@@ -54,7 +56,7 @@ class EmployeeRepository extends ServiceEntityRepository
                 ->join('e.services', 'es'.$key)
                 ->orWhere('lower(e.first_name) LIKE lower(:e_'.$key. ')')
                 ->orWhere('lower(e.last_name) LIKE lower(:e_'.$key. ')')
-                ->orWhere('lower(es'.$key.'.service) LIKE lower(:e_'.$key. ')')
+                ->orWhere('lower(es'.$key.'.title) LIKE lower(:e_'.$key. ')')
                 ->setParameter('e_'.$key, '%'.trim($term).'%');
         }
 

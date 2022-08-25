@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Employee;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Api\Requests\Employee\EmployeeCreateRequest;
@@ -13,6 +14,8 @@ use App\Controller\Api\Requests\Employee\EmployeeShowAndDeleteRequest;
 
 class ApiEmployeeController extends AbstractController
 {
+    private ObjectManager $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager->getManager();

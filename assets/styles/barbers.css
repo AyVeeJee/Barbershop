@@ -88,7 +88,17 @@
     float: right;
 }
 
+.counter {
+    float: left;
+    margin-bottom: 10px;
+    font-size: smaller;
+    color: gray;
+    font-weight: bold;
+}
+
 .modal-footer {
+    padding: 0;
+    display: block;
     float: left;
 }
 

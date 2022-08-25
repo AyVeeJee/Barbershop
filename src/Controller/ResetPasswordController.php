@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ResetPasswordController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -35,8 +37,9 @@ class ResetPasswordController extends AbstractController
 
                 $repository = $this->doctrine->getRepository(LostPassword::class);
                 $item = $repository->find($user->getLostPassword()->getId());
-                $entityManager->remove($item);
+                $item->setActive(false);
 
+                $entityManager->persist($item);
                 $entityManager->persist($user);
                 $entityManager->flush();
 

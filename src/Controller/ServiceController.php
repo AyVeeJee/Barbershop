@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ServiceController extends AbstractController
 {
+    private ManagerRegistry $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -28,7 +30,8 @@ class ServiceController extends AbstractController
     }
 
     #[Route('/service/more', name: 'service_more')]
-    public function infoService(Request $request) {
+    public function infoService(Request $request): Response
+    {
         $serviceId = $request->get('id');
 
         $serviceRepository = $this->entityManager->getManager()->getRepository(Service::class);

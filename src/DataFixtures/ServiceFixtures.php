@@ -14,7 +14,7 @@ class ServiceFixtures extends Fixture
         foreach ($this->getUserData() as [$service, $description, $price])
         {
             $user = new Service();
-            $user->setService($service);
+            $user->setTitle($service);
             $user->setDescription($description);
             $user->setPrice($price);
 

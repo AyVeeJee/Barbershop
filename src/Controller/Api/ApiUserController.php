@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Api\Requests\User\UserUpdateRequest;
@@ -14,6 +15,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ApiUserController extends AbstractController
 {
+    private ObjectManager $entityManager;
+    private UserPasswordHasherInterface $passwordEncoder;
+
     public function __construct(UserPasswordHasherInterface $passwordEncoder, ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager->getManager();

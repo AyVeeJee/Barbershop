@@ -8,32 +8,34 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @throws Exception
+     */
     public function load(ObjectManager $manager)
     {
-//        foreach($this->CommentData() as [$content, $user, $employee, $created_at])
-//        {
-//            $comment = new Comment();
-//
-//            $user = $manager->getRepository(User::class)->find($user);
-//            $employee = $manager->getRepository(Employee::class)->find($employee);
-//
-//            $comment->setContent($content);
-//            $comment->setUserComment($user);
-//            $comment->setEmployee($employee);
-//            $comment->setCreatedAtForFixtures(new \DateTime($created_at));
-//
-//            dd($comment);
-//
-//            $manager->persist($comment);
-//        }
-//
-//        $manager->flush();
+        foreach($this->CommentData() as [$content, $user, $employee, $created_at])
+        {
+            $comment = new Comment();
+
+            $user = $manager->getRepository(User::class)->find($user);
+            $employee = $manager->getRepository(Employee::class)->find($employee);
+
+            $comment->setContent($content);
+            $comment->setUserComment($user);
+            $comment->setEmployee($employee);
+            $comment->setCreatedAtForFixtures(new \DateTime($created_at));
+
+            $manager->persist($comment);
+        }
+
+        $manager->flush();
     }
 
-    private function CommentData()
+    private function CommentData(): array
     {
         return [
             ["five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets",
@@ -56,7 +58,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             UserFixtures::class,

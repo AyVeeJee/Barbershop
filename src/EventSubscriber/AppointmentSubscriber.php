@@ -9,9 +9,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 
 class AppointmentSubscriber implements EventSubscriberInterface
 {
+    private ManagerRegistry $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -24,7 +27,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPreSetData(FormEvent $event)
+    public function onPreSetData(FormEvent $event): FormInterface
     {
         $repository = $this->entityManager->getRepository(Service::class);
 
@@ -48,7 +51,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
 
         $array = [];
         foreach ($services as $service) {
-            $array[$service['service']] = $this->entityManager->getManager()->find(Service::class, $service['id']);
+            $array[$service['title']] = $this->entityManager->getManager()->find(Service::class, $service['id']);
         }
 
         $formOptions = [

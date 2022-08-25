@@ -6,6 +6,7 @@ use App\Entity\Booking;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_USER')]
 class UserListAppointmentController extends AbstractController
 {
+    private ManagerRegistry $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -33,7 +36,7 @@ class UserListAppointmentController extends AbstractController
     }
 
     #[Route('/user/appointment/delete', name: 'delete_user_appointment', methods: ['POST'])]
-    public function deleteAppointment(Request $request)
+    public function deleteAppointment(Request $request): RedirectResponse
     {
         $bookingId = $request->get('booking_id');
         $userId = $this->getUser()->getId();

@@ -21,6 +21,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class BookingAdminType extends AbstractType
 {
+    private ManagerRegistry $entityManager;
+    private AuthorizationCheckerInterface $auth;
+
     public function __construct(ManagerRegistry $entityManager, AuthorizationCheckerInterface $auth)
     {
         $this->entityManager = $entityManager;

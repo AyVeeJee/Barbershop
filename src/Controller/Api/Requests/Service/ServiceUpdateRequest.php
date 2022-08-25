@@ -10,7 +10,7 @@ class ServiceUpdateRequest extends BaseRequest
 {
     #[Type('string')]
     #[NotBlank([])]
-    protected $service;
+    protected $title;
 
     #[Type('string')]
     protected $description;

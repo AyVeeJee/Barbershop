@@ -3,6 +3,17 @@ import 'bootstrap';
 const deleteCommentBtn = document.querySelectorAll('#deleteCommentBtn');
 const updateCommentBtn = document.querySelectorAll('#updateCommentBtn');
 const deleteAppointmentBtn = document.querySelectorAll('#deleteAppointmentBtn');
+const counterMessage = document.getElementById('message-text');
+
+if (counterMessage) {
+    counterMessage.onkeyup = function () {
+        if (this.value.length > 1024) {
+            document.getElementById('count').innerHTML = "* Characters left: 0";
+        } else {
+            document.getElementById('count').innerHTML = "* Characters left: " + (1024 - this.value.length);
+        }
+    };
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     $("#btnModal").on('click', function () {

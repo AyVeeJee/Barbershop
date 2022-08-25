@@ -10,7 +10,7 @@ class ServiceCreateRequest extends BaseRequest
 {
     #[Type('string')]
     #[NotBlank([])]
-    protected $service;
+    protected $title;
 
     #[Type('string')]
     #[NotBlank([])]

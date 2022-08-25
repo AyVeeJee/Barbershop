@@ -6,7 +6,9 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-#[ORM\Table(name: '`comments`')]
+#[ORM\Table(name: '`comments`', options: ["collate" => "utf8_unicode_ci", "charset" => "utf8"])]
+#[ORM\Index(columns: ["user_comment_id"], name: "user_comments_idx")]
+#[ORM\Index(columns: ["employee_id"], name: "employee_comments_idx")]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -16,7 +18,7 @@ class Comment
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 1024)]
     private $content;
 
     #[ORM\Column(type: 'datetime')]

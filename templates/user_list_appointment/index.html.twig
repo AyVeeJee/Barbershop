@@ -20,7 +20,7 @@
                 {% if date()|date('d/m/Y H:i') < booking.beginAt|date('d/m/Y H:i') %}
                     <tr>
                         <td>{{ booking.employee.firstName ~ ' ' ~ booking.employee.lastName }}</td>
-                        <td>{{ booking.service.service }}</td>
+                        <td>{{ booking.service.title }}</td>
                         <td colspan="2">{{ booking.beginAt|date('d/m/Y H:i') }}
                             <a href="{{ path('user_booking', {'booking': booking.id, 'booking_employee': booking.employee.id}) }}" class="btn btn-list btn-update">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -63,7 +63,7 @@
             {% if date()|date('d/m/Y H:i') > booking.beginAt|date('d/m/Y H:i') %}
                 <tr>
                     <td>{{ booking.employee.firstName ~ ' ' ~ booking.employee.lastName }}</td>
-                    <td>{{ booking.service.service }}</td>
+                    <td>{{ booking.service.title }}</td>
                     <td>{{ booking.beginAt|date('d/m/Y H:i') }}</td>
                 </tr>
             {% endif %}

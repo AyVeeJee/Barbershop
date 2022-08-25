@@ -46,7 +46,7 @@ class ServicesRepository extends ServiceEntityRepository
     public function findEmployee($id): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.service')
+            ->select('s.id, s.title')
             ->leftJoin('s.employees', 'e')
             ->andWhere('e.id= :id')
             ->setParameter('id', $id)

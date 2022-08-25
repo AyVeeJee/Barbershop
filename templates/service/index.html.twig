@@ -9,7 +9,7 @@
     {% for service in services %}
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative service-block">
             <div class="col p-4 d-flex flex-column position-static">
-                <h3 class="mb-0">{{ service.service }}</h3>
+                <h3 class="mb-0">{{ service.title }}</h3>
                 <div class="mb-4 mt-5 text-muted w-50">{{ service.description }}</div>
                 <span class="card-text mb-auto"><span class="text-muted text-block">Cost</span> <h5 class="h-cost">{{ service.price|format_currency('USD', {fraction_digit: 2}) }}</h5></span>
                 <div class="wrapper">

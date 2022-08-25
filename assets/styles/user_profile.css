@@ -48,6 +48,13 @@
     color: gray;
 }
 
+.counter {
+    float: left;
+    margin-bottom: 10px;
+    color: gray;
+    font-weight: bold;
+}
+
 .user-comments button {
     box-shadow: none !important;
     float: right;
@@ -56,7 +63,7 @@
 }
 
 .btn-list-appointments {
-    width: 100%;
+    width: 75%;
 }
 
 

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-#[ORM\Table(name: '`services`')]
+#[ORM\Table(name: '`services`', options: ["collate" => "utf8_unicode_ci", "charset" => "utf8"])]
 #[ORM\Entity(repositoryClass: ServicesRepository::class)]
 class Service
 {
@@ -18,16 +18,16 @@ class Service
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private $service;
+    private $title;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 1024)]
     private $description;
 
     #[ORM\Column(type: 'float')]
     private $price;
 
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Booking::class)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
     #[Ignore]
@@ -43,7 +43,7 @@ class Service
 
     public function __toString()
     {
-        return $this->service;
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -51,14 +51,14 @@ class Service
         return $this->id;
     }
 
-    public function getService(): ?string
+    public function getTitle(): ?string
     {
-        return $this->service;
+        return $this->title;
     }
 
-    public function setService(?string $service): self
+    public function setTitle(?string $title): self
     {
-        $this->service = $service;
+        $this->title = $title;
 
         return $this;
     }

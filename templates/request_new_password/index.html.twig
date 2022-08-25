@@ -19,6 +19,10 @@
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
+            {% if error %}
+                <li class="text-danger">{{ error }}</li>
+            {% endif %}
+
             <button class="btn btn-md btn-primary form-btn" type="submit">Restore</button>
         </form>
 

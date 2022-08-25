@@ -6,9 +6,12 @@ use App\Entity\User;
 use App\Form\LoginUserType;
 use App\Form\UserType;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -16,6 +19,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    private EventDispatcherInterface $dispatcher;
+    private ManagerRegistry $doctrine;
+
     public function __construct(EventDispatcherInterface $dispatcher, ManagerRegistry $doctrine)
     {
         $this->dispatcher = $dispatcher;
@@ -25,7 +31,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $passwordEncoder)
+    public function register(Request $request, UserPasswordHasherInterface $passwordEncoder): RedirectResponse|Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -54,7 +60,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -70,9 +76,10 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/logout", name="logout")
+     * @throws Exception
      */
     public function logout() : void
     {
-        throw new \Exception('This should never be reached!');
+        throw new Exception('This should never be reached!');
     }
 }

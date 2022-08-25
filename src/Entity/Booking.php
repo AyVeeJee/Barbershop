@@ -5,7 +5,11 @@ namespace App\Entity;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table(options: ["collate" => "utf8_unicode_ci", "charset" => "utf8"])]
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
+#[ORM\Index(columns: ["appointer_id"], name: "appointer_booking_idx")]
+#[ORM\Index(columns: ["service_id"], name: "service_booking__idx")]
+#[ORM\Index(columns: ["employee_id"], name: "employee_booking_idx")]
 class Booking
 {
     #[ORM\Id]
@@ -19,13 +23,13 @@ class Booking
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $endAt;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookings')]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'refresh'], inversedBy: 'bookings')]
     private $appointer;
 
-    #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'bookings')]
+    #[ORM\ManyToOne(targetEntity: Service::class, cascade: ['persist', 'refresh'], inversedBy: 'bookings')]
     private $service;
 
-    #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'bookings')]
+    #[ORM\ManyToOne(targetEntity: Employee::class, cascade: ['persist', 'refresh'], inversedBy: 'bookings')]
     private $employee;
 
     public function getId(): ?int

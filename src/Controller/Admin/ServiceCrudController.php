@@ -18,7 +18,7 @@ class ServiceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('service'),
+            TextField::new('title'),
             TextField::new('description'),
             IntegerField::new('price')->formatValue(function ($value) {
                 return sprintf('$%d ', $value);

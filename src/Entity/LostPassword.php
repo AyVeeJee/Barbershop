@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use App\Repository\LostPasswordRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
+#[ORM\Table(options: ["collate" => "utf8_unicode_ci", "charset" => "utf8"])]
 #[ORM\Entity(repositoryClass: LostPasswordRepository::class)]
+#[ORM\Index(columns: ["token"], name: "token_lost_password_idx")]
+#[ORM\HasLifecycleCallbacks]
 class LostPassword
 {
     #[ORM\Id]
@@ -22,6 +26,18 @@ class LostPassword
     #[ORM\OneToOne(inversedBy: 'lostPassword', cascade: ['persist', 'remove'])]
     private ?User $userpass = null;
 
+    #[ORM\Column(type: 'datetime')]
+    private $created_at = null;
+
+    #[ORM\Column]
+    private ?bool $active = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $oldPassword = null;
+
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->token = sha1(random_bytes(12));
@@ -64,6 +80,43 @@ class LostPassword
     public function setUserpass(?User $userpass): self
     {
         $this->userpass = $userpass;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
+    {
+        $this->created_at = new \DateTime();
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getOldPassword(): ?string
+    {
+        return $this->oldPassword;
+    }
+
+    public function setOldPassword(string $oldPassword): self
+    {
+        $this->oldPassword = $oldPassword;
 
         return $this;
     }

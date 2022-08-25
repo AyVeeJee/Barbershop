@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CalendarSubscriber implements EventSubscriberInterface
 {
-    private $bookingRepository;
+    private BookingRepository $bookingRepository;
     private $router;
 
     public function __construct(
@@ -52,7 +52,7 @@ class CalendarSubscriber implements EventSubscriberInterface
 
         foreach ($bookings as $booking) {
             $bookingEvent = new Event(
-                $booking->getEmployee()->getFirstName() . ' ' . $booking->getEmployee()->getLastName() . ' ' . $booking->getService()->getService(),
+                $booking->getEmployee()->getFirstName() . ' ' . $booking->getEmployee()->getLastName() . ' ' . $booking->getService()->getTitle(),
                 $booking->getBeginAt(),
                 $booking->getEndAt()
             );

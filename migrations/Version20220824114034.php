@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220803105822 extends AbstractMigration
+final class Version20220824114034 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,21 +27,23 @@ final class Version20220803105822 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE "services_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "users_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE booking (id INT NOT NULL, appointer_id INT DEFAULT NULL, service_id INT DEFAULT NULL, employee_id INT DEFAULT NULL, begin_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, end_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_E00CEDDECEE930E1 ON booking (appointer_id)');
-        $this->addSql('CREATE INDEX IDX_E00CEDDEED5CA9E6 ON booking (service_id)');
-        $this->addSql('CREATE INDEX IDX_E00CEDDE8C03F15C ON booking (employee_id)');
-        $this->addSql('CREATE TABLE "comments" (id INT NOT NULL, user_comment_id INT NOT NULL, employee_id INT NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_5F9E962A5F0EBBFF ON "comments" (user_comment_id)');
-        $this->addSql('CREATE INDEX IDX_5F9E962A8C03F15C ON "comments" (employee_id)');
-        $this->addSql('CREATE TABLE "employees" (id INT NOT NULL, first_name VARCHAR(60) NOT NULL, last_name VARCHAR(60) NOT NULL, email VARCHAR(60) NOT NULL, phone VARCHAR(60) NOT NULL, image_name VARCHAR(255) DEFAULT NULL, image_size INT DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, work_days JSON DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX appointer_booking_idx ON booking (appointer_id)');
+        $this->addSql('CREATE INDEX service_booking__idx ON booking (service_id)');
+        $this->addSql('CREATE INDEX employee_booking_idx ON booking (employee_id)');
+        $this->addSql('CREATE TABLE "comments" (id INT NOT NULL, user_comment_id INT NOT NULL, employee_id INT NOT NULL, content VARCHAR(1024) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX user_comments_idx ON "comments" (user_comment_id)');
+        $this->addSql('CREATE INDEX employee_comments_idx ON "comments" (employee_id)');
+        $this->addSql('CREATE TABLE "employees" (id INT NOT NULL, first_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(255) DEFAULT NULL, email VARCHAR(255) NOT NULL, phone VARCHAR(15) NOT NULL, image_name VARCHAR(255) DEFAULT NULL, image_size INT DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, work_days JSON DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_BA82C300E7927C74 ON "employees" (email)');
         $this->addSql('CREATE TABLE employee_service (employee_id INT NOT NULL, service_id INT NOT NULL, PRIMARY KEY(employee_id, service_id))');
         $this->addSql('CREATE INDEX IDX_61D1CCDD8C03F15C ON employee_service (employee_id)');
         $this->addSql('CREATE INDEX IDX_61D1CCDDED5CA9E6 ON employee_service (service_id)');
-        $this->addSql('CREATE TABLE lost_password (id INT NOT NULL, userpass_id INT DEFAULT NULL, token VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE lost_password (id INT NOT NULL, userpass_id INT DEFAULT NULL, token VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, active BOOLEAN NOT NULL, old_password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_A492D0557035A65B ON lost_password (userpass_id)');
-        $this->addSql('CREATE TABLE "services" (id INT NOT NULL, service VARCHAR(255) NOT NULL, description TEXT NOT NULL, price DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE "users" (id INT NOT NULL, first_name VARCHAR(60) NOT NULL, last_name VARCHAR(60) NOT NULL, email VARCHAR(180) NOT NULL, password VARCHAR(255) NOT NULL, phone VARCHAR(255) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX token_lost_password_idx ON lost_password (token)');
+        $this->addSql('CREATE TABLE "services" (id INT NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(1024) NOT NULL, price DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_7332E1692B36786B ON "services" (title)');
+        $this->addSql('CREATE TABLE "users" (id INT NOT NULL, first_name VARCHAR(60) DEFAULT NULL, last_name VARCHAR(60) DEFAULT NULL, email VARCHAR(180) NOT NULL, password VARCHAR(255) NOT NULL, phone VARCHAR(255) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON "users" (email)');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');

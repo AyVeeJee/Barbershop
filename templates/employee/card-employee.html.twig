@@ -9,7 +9,6 @@
         <div class="col-md-4">
             <div class="col p-4 d-flex flex-column mt-5 mb-5 m-lg-5 info-employee">
                 <h2 class="card-title">{{ employee.firstName ~ ' ' ~ employee.lastName}}</h2>
-                {{ employee.imageName }}
                 <img src="{% if employee.imageName is not null %}
                             {{ asset(image_dir ~ employee.imageName) }}
                         {% else %}

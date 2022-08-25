@@ -9,6 +9,8 @@ use App\Entity\Booking;
 use App\Entity\Service;
 use App\Entity\Employee;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
+use Exception;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Controller\Api\Requests\Booking\BookingShowRequest;
@@ -19,6 +21,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiBookingController extends AbstractController
 {
+    private ObjectManager $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager->getManager();
@@ -83,6 +87,9 @@ class ApiBookingController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     private function createEntityFromRequest(Booking $booking, $request): void
     {
         $user = $this->entityManager->find(User::class, $request->get('user_id', $booking->getAppointer()?->getId()));

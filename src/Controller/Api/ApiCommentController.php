@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Comment;
 use App\Entity\Employee;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Controller\Api\Requests\Comment\CommentShowRequest;
@@ -16,6 +17,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiCommentController extends AbstractController
 {
+    private ObjectManager $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager->getManager();
@@ -84,7 +87,7 @@ class ApiCommentController extends AbstractController
     {
         $user = $this->entityManager->find(User::class, $request->get('user_id', $comment->getUserComment()?->getId()));
         $employee = $this->entityManager->find(Employee::class, $request->get('employee_id', $comment->getEmployee()?->getId()));
-        $content = $request->get('content', $comment->getContent());
+        $content = substr($request->get('content', $comment->getContent()), 0, 1024);
 
         $comment->setUserComment($user);
         $comment->setContent($content);

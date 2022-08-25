@@ -38,11 +38,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'user_comment', targetEntity: Comment::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'user_comment', targetEntity: Comment::class, fetch: 'EAGER', orphanRemoval: true)]
     private $comments;
 
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'appointer', targetEntity: Booking::class)]
+    #[ORM\OneToMany(mappedBy: 'appointer', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
     private $terms;

@@ -16,6 +16,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class ApiKeyAuthenticator extends AbstractAuthenticator
 {
     protected const AUTH_KEY = 'authorization_email';
+    private UserRepository $userRepository;
 
     public function __construct(UserRepository $userRepository)
     {

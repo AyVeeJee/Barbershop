@@ -70,13 +70,12 @@
                     </article>
                     <br>
                 {% endfor %}
-                <a href="{{ path('user_list_appointment') }}" class="btn btn-md btn-primary btn-list-appointments mt-5">Make Appointment</a>
 
                 {% include 'modal/user.profile.update.comment.html.twig' %}
                 {% include 'modal/user.profile.delete.comment.html.twig' %}
             </div>
         </div>
-
+        <a href="{{ path('user_list_appointment') }}" class="btn btn-md btn-primary btn-list-appointments mt-5">Go to My Appointments</a>
 
         {% endif %}
     </div>

@@ -8,6 +8,12 @@ services:
   nginx-service:
     image: nginx:stable-alpine
     container_name: nginx
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     ports:
       - "8080:80"
     volumes:
@@ -22,6 +28,12 @@ services:
 
   # php
   php81-service:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     build:
       context: .
       dockerfile: Docker/php/Dockerfile
@@ -34,13 +46,18 @@ services:
       - nginx-php81-mysql8-node
   db:
     image: "postgres:latest"
-    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     env_file:
       - .env
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - postgres_logs:/logs:z
+      - postgres_logs:/logs
     ports:
       - 5432:5432
     networks:

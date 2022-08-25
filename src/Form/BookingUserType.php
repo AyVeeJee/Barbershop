@@ -14,6 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BookingUserType extends AbstractType
 {
+    private ManagerRegistry $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager;

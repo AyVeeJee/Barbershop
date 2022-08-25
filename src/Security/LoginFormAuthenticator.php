@@ -21,6 +21,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 class LoginFormAuthenticator extends AbstractAuthenticator
 {
     private UserRepository $userRepository;
+    private UserPasswordHasherInterface $passwordEncoder;
+    private Security $security;
+    private RouterInterface $router;
 
     public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $passwordEncoder, Security $security, RouterInterface $router)
     {
@@ -61,12 +64,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator
     {
         $roleNames = $token->getRoleNames();
 
-        foreach ($roleNames as $role) {
-            if ($role === 'ROLE_ADMIN') {
-                return new RedirectResponse(
-                    $this->router->generate('admin')
-                );
-            }
+        if (in_array('ROLE_ADMIN', $roleNames, true)) {
+            return new RedirectResponse(
+                $this->router->generate('admin')
+            );
         }
 
         return new RedirectResponse(

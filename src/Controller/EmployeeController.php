@@ -13,12 +13,17 @@ use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EmployeeController extends AbstractController
 {
+    private ManagerRegistry $entityManager;
+    private EmployeeRepository $employeeRepository;
+    private AdminUrlGenerator $crudUrlGenerator;
+
     public function __construct(AdminUrlGenerator $crudUrlGenerator, ManagerRegistry $entityManager, EmployeeRepository $employeeRepository)
     {
         $this->entityManager = $entityManager;
@@ -41,7 +46,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route("/barbers/search-results/{page}", name: "barber_search_results", defaults: ["page" => "1"], methods: ["GET"])]
-    public function searchResults($page, Request $request)
+    public function searchResults($page, Request $request): Response
     {
         $employees = null;
         $query = null;
@@ -59,7 +64,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/barbers/info', name: 'employee_info')]
-    public function infoEmployee(Request $request)
+    public function infoEmployee(Request $request): Response
     {
         $comments = null;
         $employeeId = $request->get('id');
@@ -78,11 +83,11 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/barbers/info/save', name: 'save_comment', methods: ['POST'])]
-    public function saveComment(Request $request)
+    public function saveComment(Request $request): RedirectResponse
     {
         $employeeId = $request->get('employee_id');
         $userId = $this->getUser()->getId();
-        $content = $request->get('content');
+        $content = substr($request->get('content'), 0, 1024);
 
         $comment = new Comment();
 
@@ -97,7 +102,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/admin/employee/new', name: 'admin_new_employee')]
-    public function adminNewEmployee(Request $request)
+    public function adminNewEmployee(Request $request): RedirectResponse|Response
     {
         $employeeId = $request->get('uuid');
         $employee = new Employee();

@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Service;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Controller\Api\Requests\Service\ServiceCreateRequest;
@@ -13,6 +14,8 @@ use App\Controller\Api\Requests\Service\ServiceShowAndDeleteRequest;
 
 class ApiServiceController extends AbstractController
 {
+    private ObjectManager $entityManager;
+
     public function __construct(ManagerRegistry $entityManager)
     {
         $this->entityManager = $entityManager->getManager();
@@ -79,14 +82,14 @@ class ApiServiceController extends AbstractController
 
     private function createEntityFromRequest(Service $service, $request): void
     {
-        $service->setService($request->get('service', $service->getService()));
+        $service->setTitle($request->get('title', $service->getTitle()));
         $service->setDescription($request->get('description', $service->getDescription()));
         $service->setPrice($request->get('price', $service->getPrice()));
     }
 
     private function findUserByEmail($request)
     {
-        $service = $this->entityManager->getRepository(Service::class)->findOneBy(['service' => $request->get('service')]);
+        $service = $this->entityManager->getRepository(Service::class)->findOneBy(['title' => $request->get('title')]);
 
         if (!$service) {
             throw $this->createNotFoundException('No Service found');

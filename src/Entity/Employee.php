@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Table(name: '`employees`')]
+#[ORM\Table(name: '`employees`', options: ["collate" => "utf8_unicode_ci", "charset" => "utf8"])]
 /**
  * @Vich\Uploadable
  */
@@ -24,24 +24,24 @@ class Employee
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 60, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $first_name;
 
-    #[ORM\Column(type: 'string', length: 60, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $last_name;
 
-    #[ORM\Column(type: 'string', length: 60, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $email;
 
-    #[ORM\Column(type: 'string', length: 60)]
+    #[ORM\Column(type: 'string', length: 15)]
     private $phone;
 
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Comment::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Comment::class, fetch: 'EAGER', orphanRemoval: true)]
     private $comments;
 
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class)]
+    #[ORM\OneToMany(mappedBy: 'employee', targetEntity: Booking::class, orphanRemoval: true)]
     private $bookings;
 
     #[Ignore]

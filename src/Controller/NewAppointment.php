@@ -20,6 +20,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NewAppointment extends AbstractController
 {
+    private AdminUrlGenerator $crudUrlGenerator;
+    private BookingRepository $bookingRepository;
+    private ManagerRegistry $entityManager;
+
     public function __construct(AdminUrlGenerator $crudUrlGenerator, BookingRepository $bookingRepository, ManagerRegistry $entityManager)
     {
         $this->crudUrlGenerator = $crudUrlGenerator;
@@ -125,7 +129,7 @@ class NewAppointment extends AbstractController
     /**
      * @Route("/appointment/admin/ajax", name="admin_appointment")
      */
-    public function ajaxAdminAction(Request $request)
+    public function ajaxAdminAction(Request $request): Response
     {
         $booking = new Booking();
 
@@ -141,7 +145,7 @@ class NewAppointment extends AbstractController
     /**
      * @Route("/appointment/user/ajax", name="user_appointment")
      */
-    public function ajaxUserAction(Request $request)
+    public function ajaxUserAction(Request $request): Response
     {
         $booking = new Booking();
 

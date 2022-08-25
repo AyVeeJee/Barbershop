@@ -14,7 +14,7 @@ class UserCrudController extends AbstractCrudController
     /**
      * @var UserPasswordHasherInterface
      */
-    private $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
 
     /**
      * UserController constructor.

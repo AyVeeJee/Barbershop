@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
@@ -16,23 +17,44 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RequestNewPasswordController extends AbstractController
 {
+    const requestError = 'Please, check your email';
+    private EventDispatcherInterface $eventDispatcher;
+    private ManagerRegistry $entityManager;
+
     public function __construct(EventDispatcherInterface $dispatcher, ManagerRegistry $entityManager)
     {
         $this->eventDispatcher = $dispatcher;
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     #[Route('/recover-password', name: 'recover')]
     public function index(Request $request): Response
     {
+        $error = '';
         $email = $request->get('_email');
 
         $repository = $this->entityManager->getManager()->getRepository(User::class);
+        $lostPassword = $this->entityManager->getManager()
+            ->getRepository(LostPassword::class)
+            ->findOneBy(
+                [
+                    'email' => $email,
+                    'active' => true,
+                ]);
+
         $user = $repository->findOneBy(['email' => $email]);
 
         if ($user) {
-            $lostPassword = new LostPassword();
-            $lostPassword->setEmail($email);
+            if (!$lostPassword) {
+                $lostPassword = new LostPassword();
+                $lostPassword->setEmail($email);
+                $lostPassword->setActive(true);
+                $lostPassword->setOldPassword($user->getPassword());
+            }
+
             $user->setLostPassword($lostPassword);
             $this->entityManager->getManager()->flush();
 
@@ -41,9 +63,16 @@ class RequestNewPasswordController extends AbstractController
            return $this->render('request_new_password/after-restore.html.twig');
         }
 
-        return $this->render('request_new_password/index.html.twig');
+        if ($email) {
+            $error = self::requestError;
+        }
+
+        return $this->render('request_new_password/index.html.twig', ['error' => $error]);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function sendEmail($user)
     {
         $transport = Transport::fromDsn($this->getParameter('app.mailer_dsn'));

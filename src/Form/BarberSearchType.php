@@ -21,11 +21,11 @@ class BarberSearchType extends AbstractType
                 'required' => true,
                 'placeholder' => 'All',
                 'choice_label' => function ($service) {
-                    return $service->getService();
+                    return $service->getTitle();
                 }
             ])
             ->add('last_name')
-            ->add('service')
+            ->add('title')
             ->add('email')
             ->add('phone')
             ->add('services')

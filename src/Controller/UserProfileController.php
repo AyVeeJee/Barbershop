@@ -8,6 +8,7 @@ use App\Form\NewPasswordType;
 use App\Form\UserPersonalDetailsType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -17,6 +18,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 #[IsGranted('ROLE_USER')]
 class UserProfileController extends AbstractController
 {
+    private ManagerRegistry $entityManager;
+    private UserPasswordHasherInterface $passwordEncoder;
+
     public function __construct(ManagerRegistry $entityManager, UserPasswordHasherInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
@@ -68,7 +72,7 @@ class UserProfileController extends AbstractController
     }
 
     #[Route('/user/profile/update', name: 'user_profile_comment_update')]
-    public function updateComment(Request $request)
+    public function updateComment(Request $request): RedirectResponse
     {
         $commentId = $request->get('employee_id');
         $userId = $this->getUser()->getId();
@@ -90,7 +94,7 @@ class UserProfileController extends AbstractController
     }
 
     #[Route('/user/profile/delete', name: 'user_profile_comment_delete', methods: ['POST'])]
-    public function deleteComment(Request $request)
+    public function deleteComment(Request $request): RedirectResponse
     {
         $commentId = $request->get('comment_id');
         $userId = $this->getUser()->getId();
