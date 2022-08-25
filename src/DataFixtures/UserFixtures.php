@@ -2,15 +2,15 @@
 
 namespace App\DataFixtures;
 
-use App\Form\DataTransformer\StringToPhoneNumberTransformer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
-use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $password_encoder;
+
     public function __construct(UserPasswordHasherInterface $password_encoder)
     {
         $this->password_encoder = $password_encoder;

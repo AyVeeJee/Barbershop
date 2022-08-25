@@ -16,11 +16,15 @@ class ApiBookingControllerTest extends ApiWebTestCase
     public function testApiCreateBooking()
     {
         $dataTime = new \DateTime();
+        $userId = $this->user->getId();
+        $serviceId = $this->service->getId();
+        $employeeId = $this->employee->getId();
+
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'user_id' => '1',
-            'service_id' => '1',
-            'employee_id' => '1',
+            'user_id' => "$userId",
+            'service_id' => "$serviceId",
+            'employee_id' => "$employeeId",
             'begin_at' => $dataTime->format('d.m.Y h:i'),
         ];
 
@@ -30,13 +34,15 @@ class ApiBookingControllerTest extends ApiWebTestCase
 
     public function testApiUpdateBooking()
     {
-        $booking = $this->findBooking();
+        $serviceId = $this->service->getId();
+        $employeeId = $this->employee->getId();
+        $bookingId = $this->findBooking();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'booking_id' => "$booking",
-            'service_id' => '1',
-            'employee_id' => '1',
+            'booking_id' => "$bookingId",
+            'service_id' => "$serviceId",
+            'employee_id' => "$employeeId",
         ];
 
         $this->sendRequest('booking/update');
@@ -45,11 +51,11 @@ class ApiBookingControllerTest extends ApiWebTestCase
 
     public function testApiShowBooking()
     {
-        $booking = $this->findBooking();
+        $bookingId = $this->findBooking();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'booking_id' => "$booking",
+            'booking_id' => "$bookingId",
         ];
 
         $this->sendRequest('booking/show');
@@ -60,11 +66,11 @@ class ApiBookingControllerTest extends ApiWebTestCase
 
     public function testApiDeleteBooking()
     {
-        $booking = $this->findBooking();
+        $bookingId = $this->findBooking();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'booking_id' => "$booking",
+            'booking_id' => "$bookingId",
         ];
 
         $this->sendRequest('booking/delete');
@@ -75,6 +81,12 @@ class ApiBookingControllerTest extends ApiWebTestCase
     {
         return $this->em
             ->getRepository(Booking::class)
-            ->findOneBy(['appointer' => '1'])->getId();
+            ->findOneBy(
+                [
+                    'appointer' => $this->user->getId(),
+                    'service' => $this->service->getId(),
+                    'employee' => $this->employee->getId(),
+                ])
+            ->getId();
     }
 }

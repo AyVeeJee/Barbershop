@@ -18,7 +18,7 @@ class ApiServiceControllerTest extends ApiWebTestCase
     {
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'service' => $this->randomStr,
+            'title' => $this->randomStr,
             'description' => $this->randomStr,
             'price' => '10',
         ];
@@ -33,7 +33,7 @@ class ApiServiceControllerTest extends ApiWebTestCase
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'service' => $service->getService(),
+            'title' => $service->getTitle(),
             'description' => ByteString::fromRandom(30)->toString(),
         ];
 
@@ -47,7 +47,7 @@ class ApiServiceControllerTest extends ApiWebTestCase
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'service' => $service->getService(),
+            'title' => $service->getTitle(),
         ];
 
         $this->sendRequest('service/show');
@@ -62,7 +62,7 @@ class ApiServiceControllerTest extends ApiWebTestCase
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'service' => $service->getService(),
+            'title' => $service->getTitle(),
         ];
 
         $this->sendRequest('service/delete');

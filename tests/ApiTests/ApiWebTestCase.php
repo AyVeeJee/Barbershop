@@ -2,6 +2,8 @@
 
 namespace App\Tests\ApiTests;
 
+use App\Entity\Employee;
+use App\Entity\Service;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -25,6 +27,10 @@ class ApiWebTestCase extends WebTestCase
         $this->randomStr = ByteString::fromRandom(6)->toString();
         $this->hasher = self::getContainer()->get('security.user_password_hasher');
         $this->em = self::getContainer()->get('doctrine.orm.entity_manager');
+
+        $this->user = $this->createUser();
+        $this->service = $this->createService();
+        $this->employee = $this->createEmployee();
     }
 
     protected function tearDown(): void
@@ -67,7 +73,7 @@ class ApiWebTestCase extends WebTestCase
             ->getRepository(User::class)
             ->findByRole('ROLE_ADMIN');
 
-        if ($record !== null) {
+        if (!empty($record)) {
             return reset($record);
         }
 
@@ -84,5 +90,46 @@ class ApiWebTestCase extends WebTestCase
         $this->em->flush();
 
         return $user;
+    }
+
+    protected function createService(): Service
+    {
+        $record = $this->em
+            ->getRepository(Service::class)
+            ->findBy([], ['id'=>'DESC'],1,0);
+
+        if (!empty($record)) {
+            return reset($record);
+        }
+
+        $service = (new Service())
+            ->setTitle('test')
+            ->setDescription('test')
+            ->setPrice(10);
+
+        $this->em->persist($service);
+        $this->em->flush();
+
+        return $service;
+    }
+
+    protected function createEmployee(): Employee
+    {
+        $record = $this->em
+            ->getRepository(Employee::class)
+            ->findBy([], ['id'=>'DESC'],1,0);
+
+        if (!empty($record)) {
+            return reset($record);
+        }
+
+        $employee = (new Employee())
+            ->setEmail('test@unittest.com')
+            ->setPhone('+375255897887');
+
+        $this->em->persist($employee);
+        $this->em->flush();
+
+        return $employee;
     }
 }

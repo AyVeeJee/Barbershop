@@ -4,8 +4,8 @@ namespace App\Tests\ApiTests;
 
 use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\String\ByteString;
 
 class ApiEmployeeControllerTest extends ApiWebTestCase
 {
@@ -13,15 +13,37 @@ class ApiEmployeeControllerTest extends ApiWebTestCase
     protected ?EntityManagerInterface $em;
     protected int $status = 200;
     protected array $postData = [];
+    /**
+     * @var Employee|Employee&MockObject|MockObject
+     */
+    private MockObject|Employee $employeeMock;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->employeeMock = $this->createConfiguredMock(Employee::class,
+            [
+                'getFirstName' => 'test',
+                'getLastName' => 'test',
+                'getEmail' => 'test@test.com',
+                'getPhone' => '+375293458798',
+            ]);
+    }
 
     public function testApiCreateEmployee()
     {
+        $firstName = $this->employeeMock->getFirstName();
+        $lastName = $this->employeeMock->getLastName();
+        $email = $this->employeeMock->getEmail();
+        $phone = $this->employeeMock->getPhone();
+
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'first_name' => $this->randomStr,
-            'last_name' => $this->randomStr,
-            'email' => $this->randomStr,
-            'phone' => $this->randomStr,
+            'first_name' => "$firstName",
+            'last_name' => "$lastName",
+            'email' => "$email",
+            'phone' => "$phone",
         ];
 
         $this->sendRequest('employee/create');
@@ -30,12 +52,13 @@ class ApiEmployeeControllerTest extends ApiWebTestCase
 
     public function testApiUpdateEmployee()
     {
-        $employee = $this->findEmployee();
+        $lastName = $this->employeeMock->getLastName();
+        $email = $this->employeeMock->getEmail();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $employee->getEmail(),
-            'last_name' => ByteString::fromRandom(30)->toString(),
+            'email' => "$email",
+            'last_name' => "$lastName",
         ];
 
         $this->sendRequest('employee/update');
@@ -44,11 +67,11 @@ class ApiEmployeeControllerTest extends ApiWebTestCase
 
     public function testApiShowEmployee()
     {
-        $employee = $this->findEmployee();
+        $email = $this->employeeMock->getEmail();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $employee->getEmail(),
+            'email' => "$email",
         ];
 
         $this->sendRequest('employee/show');
@@ -59,23 +82,14 @@ class ApiEmployeeControllerTest extends ApiWebTestCase
 
     public function testApiDeleteEmployee()
     {
-        $employee = $this->findEmployee();
+        $email = $this->employeeMock->getEmail();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $employee->getEmail(),
+            'email' => "$email",
         ];
 
         $this->sendRequest('employee/delete');
         $this->checkEqual($this->response('Employee deleted successfully'));
-    }
-
-    protected function findEmployee()
-    {
-        $record = $this->em
-            ->getRepository(Employee::class)
-            ->findBy([], ['id'=>'DESC'],1,0);
-
-        return reset($record);
     }
 }

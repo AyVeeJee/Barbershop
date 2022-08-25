@@ -16,10 +16,12 @@ class ApiCommentControllerTest extends ApiWebTestCase
 
     public function testApiCreateComment()
     {
+        $userId = $this->user->getId();
+        $employeeId = $this->employee->getId();
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'user_id' => '1',
-            'employee_id' => '1',
+            'user_id' => "$userId",
+            'employee_id' => "$employeeId",
             'content' => ByteString::fromRandom(30)->toString(),
         ];
 
@@ -73,6 +75,11 @@ class ApiCommentControllerTest extends ApiWebTestCase
     {
         return $this->em
             ->getRepository(Comment::class)
-            ->findOneBy(['user_comment' => '1'])->getId();
+            ->findOneBy(
+                [
+                    'user_comment' => $this->user->getId(),
+                    'employee' => $this->employee->getId(),
+                ])
+            ->getId();
     }
 }

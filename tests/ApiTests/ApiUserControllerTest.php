@@ -4,7 +4,9 @@ namespace App\Tests\ApiTests;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\String\ByteString;
 
 class ApiUserControllerTest extends ApiWebTestCase
 {
@@ -12,14 +14,32 @@ class ApiUserControllerTest extends ApiWebTestCase
     protected ?EntityManagerInterface $em;
     protected int $status = 200;
     protected array $postData = [];
+    private User&MockObject $userMock;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->userMock = $this->createConfiguredMock(User::class,
+            [
+                'getPassword' => ByteString::fromRandom(6)->toString(),
+                'getLastName' => 'test',
+                'getEmail' => 'test@test.com',
+                'getPhone' => '+375293458798',
+            ]);
+    }
 
     public function testApiCreateUser()
     {
+        $email = $this->userMock->getEmail();
+        $password = $this->userMock->getPassword();
+        $phone = $this->userMock->getPhone();
+
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $this->randomStr,
-            'password' => $this->randomStr,
-            'phone' => '10',
+            'email' => "$email",
+            'password' => "$password",
+            'phone' => "$phone",
         ];
 
         $this->sendRequest('user/create');
@@ -28,13 +48,15 @@ class ApiUserControllerTest extends ApiWebTestCase
 
     public function testApiUpdateUser()
     {
-        $user = $this->findUser();
+        $email = $this->user->getEmail();
+        $password = $this->user->getPassword();
+        $lastName = $this->user->getLastName();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $user->getEmail(),
-            'last_name' => $this->randomStr,
-            'password' => $this->randomStr,
+            'email' => "$email",
+            'last_name' => "$lastName",
+            'password' => "$password",
         ];
 
         $this->sendRequest('user/update');
@@ -43,11 +65,11 @@ class ApiUserControllerTest extends ApiWebTestCase
 
     public function testApiShowUser()
     {
-        $user = $this->findUser();
+        $email = $this->user->getEmail();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $user->getEmail(),
+            'email' => "$email",
         ];
 
         $this->sendRequest('user/show');
@@ -58,23 +80,14 @@ class ApiUserControllerTest extends ApiWebTestCase
 
     public function testApiDeleteUser()
     {
-        $user = $this->findUser();
+        $email = $this->userMock->getEmail();
 
         $this->postData = [
             'authorization_email' => $this->createUser()->getEmail(),
-            'email' => $user->getEmail(),
+            'email' => "$email",
         ];
 
         $this->sendRequest('user/delete');
         $this->checkEqual($this->response('User deleted successfully'));
-    }
-
-    protected function findUser()
-    {
-        $record = $this->em
-            ->getRepository(User::class)
-            ->findBy([], ['id'=>'DESC'],1,0);
-
-        return reset($record);
     }
 }
